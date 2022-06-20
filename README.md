@@ -10,6 +10,8 @@ POC
 
 ![alt text](docs/maket.jpg "Maket")
 
+Thick Film Resistors - SMD 100 Ohms 250 mW 1206 5%
+
 ## Api
 Turn on
 
