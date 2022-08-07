@@ -1,0 +1,16 @@
+[Unit]
+Description=safe-pool
+After=network.target auditd.service
+
+[Service]
+TimeoutStartSec=0
+Type=simple
+KillMode=process
+WorkingDirectory=/root/Work/safe-pool
+ExecStart=/root/Work/safe-pool/run.sh
+Restart=always
+RestartSec=2
+LimitNOFILE=5555
+
+[Install]
+WantedBy=multi-user.target

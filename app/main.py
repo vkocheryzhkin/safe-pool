@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter
-import OPi.GPIO as GPIO
+import os
+import subprocess
 import logging
 from logging.config import dictConfig
 from app.log_config import log_config
@@ -26,7 +27,10 @@ def on() -> dict:
     Turn On
     """
     logger.info("Turn on")
-    GPIO.output(5, 1)
+    subprocess.run(["gpio", "write", "21", "1"])
+    subprocess.run(["gpio", "write", "25", "0"])
+    subprocess.run(["gpio", "write", "22", "1"])
+    subprocess.run(["gpio", "write", "24", "0"])
     return {"msg": "on"}
 
 @api_router.post("/off", status_code=201)
@@ -35,7 +39,10 @@ def off() -> dict:
     Turn off
     """
     logger.info("Turn off")
-    GPIO.output(5, 0)
+    subprocess.run(["gpio", "write", "21", "0"])
+    subprocess.run(["gpio", "write", "25", "0"])
+    subprocess.run(["gpio", "write", "22", "0"])
+    subprocess.run(["gpio", "write", "24", "0"])
     return {"msg": "off"}
 
 app.include_router(api_router)
@@ -43,14 +50,23 @@ app.include_router(api_router)
 @app.on_event("startup")
 async def startup_event():
     logger.info("start")
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(3, GPIO.OUT)
-    GPIO.setup(5, GPIO.OUT)
+    subprocess.run(["gpio", "mode", "25", "out"])
+    subprocess.run(["gpio", "mode", "21", "out"])
+    subprocess.run(["gpio", "mode", "22", "out"])
+    subprocess.run(["gpio", "mode", "24", "out"])
+    subprocess.run(["gpio", "write", "21", "0"])
+    subprocess.run(["gpio", "write", "25", "0"])
+    subprocess.run(["gpio", "write", "22", "0"])
+    subprocess.run(["gpio", "write", "24", "0"])
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info("shutdown")
-    GPIO.cleanup()
+    subprocess.run(["gpio", "write", "21", "0"])
+    subprocess.run(["gpio", "write", "25", "0"])
+    subprocess.run(["gpio", "write", "22", "0"])
+    subprocess.run(["gpio", "write", "24", "0"])
 
 if __name__ == "__main__":
     import uvicorn
