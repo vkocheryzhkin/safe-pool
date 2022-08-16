@@ -21,6 +21,26 @@ def health() -> dict:
     """
     return {"health": "ok"}
 
+@api_router.post("/vibrate_on", status_code=201)
+def vibrate_on() -> dict:
+    """
+    Turn vibrate On
+    """
+    logger.info("Turn vibrate on")
+    subprocess.run(["gpio", "write", "22", "1"])
+    subprocess.run(["gpio", "write", "24", "0"])
+    return {"msg": "vibrate on"}
+
+@api_router.post("/vibrate_off", status_code=201)
+def vibrate_off() -> dict:
+    """
+    Turn vibrate off
+    """
+    logger.info("Turn vibrate off")
+    subprocess.run(["gpio", "write", "22", "0"])
+    subprocess.run(["gpio", "write", "24", "0"])
+    return {"msg": "vibrate off"}
+
 @api_router.post("/on", status_code=201)
 def on() -> dict:
     """
