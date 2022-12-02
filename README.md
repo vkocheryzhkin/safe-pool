@@ -12,6 +12,10 @@ POC
 
 Thick Film Resistors - SMD 100 Ohms 250 mW 1206 5%
 
+## Boxed with sirena
+
+![alt text](docs/box.jpg "Product")
+
 ## Api
 Turn on
 
